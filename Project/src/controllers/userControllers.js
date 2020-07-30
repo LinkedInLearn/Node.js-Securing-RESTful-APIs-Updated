@@ -62,7 +62,7 @@ export const loginRequired = (req, res, next) => {
     }
     else {
         return res.status(401).send({
-            message: 'Authentication failed. No user Found!'
+            message: 'Unauthorized user!'
         });
     }
 };

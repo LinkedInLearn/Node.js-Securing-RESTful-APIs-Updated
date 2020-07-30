@@ -12,7 +12,7 @@ import {
 } from "../controllers/userControllers";
 
 const routes = (app) => {
-    app.route('/contact')
+    app.route('/contacts')
         .get((req, res, next) => {
             // middleware
             console.log(`Request from: ${req.originalUrl}`)
