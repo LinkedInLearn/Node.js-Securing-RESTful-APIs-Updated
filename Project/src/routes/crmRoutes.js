@@ -1,32 +1,45 @@
-import { 
-    addNewContact, 
-    getContacts, 
-    getContactWithID, 
+import {
+    addNewContact,
+    getContacts,
+    getContactWithID,
     updateContact,
-    deleteContact 
+    deleteContact
 } from '../controllers/crmController';
+import {
+    login,
+    loginRequired,
+    register
+} from "../controllers/userControllers";
 
 const routes = (app) => {
-    app.route('/contacts')
-    .get((req, res, next) => {
-        // middleware
-        console.log(`Request from: ${req.originalUrl}`)
-        console.log(`Request type: ${req.method}`)
-        next();
-    }, getContacts)
-    
-    // POST endpoint
-    .post(addNewContact);
+    app.route('/contact')
+        .get((req, res, next) => {
+            // middleware
+            console.log(`Request from: ${req.originalUrl}`)
+            console.log(`Request type: ${req.method}`)
+            next();
+        }, loginRequired, getContacts)
+
+        // POST endpoint
+        .post(loginRequired, addNewContact);
 
     app.route('/contact/:contactId')
-    // get specific contact
-    .get(getContactWithID)
-    
-    // put request
-    .put(updateContact)
+        // get specific contact
+        .get(loginRequired, getContactWithID)
 
-    // delete request
-    .delete(deleteContact);
+        // put request
+        .put(loginRequired, updateContact)
+
+        // delete request
+        .delete(loginRequired, deleteContact);
+
+    //login route
+    app.route('/auth/register')
+        .post(register);
+
+    //login
+    app.route('/auth/login')
+        .post(login);
 }
 
 export default routes;
